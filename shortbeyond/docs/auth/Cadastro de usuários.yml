@@ -1,0 +1,24 @@
+info:
+  name: Cadastro de usuários
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: http://localhost:3333/api/auth/register
+  body:
+    type: json
+    data: |-
+      {
+        "name": "João Silva",
+        "email": "joao@email.com",
+        "password": "123456"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
