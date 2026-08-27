@@ -1,12 +1,12 @@
 import { test, expect } from "@playwright/test";
 import { getUser } from "../../support/factories/user";
-import { registerService } from "../../support/services/register";
+import { authService } from "../../support/services/auth";
 
 test.describe("POST /auth/register", () => {
-  let register;
+  let auth;
 
   test.beforeEach(({ request }) => {
-    register = registerService(request);
+    auth = authService(request);
   });
 
   test("deve cadastrar um novo usuario", async ({ request }) => {
@@ -14,7 +14,7 @@ test.describe("POST /auth/register", () => {
     const user = getUser();
 
     // Ação
-    const response = await register.createUser(user);
+    const response = await auth.createUser(user);
     // Resultado Esperado
     expect(response.status()).toBe(201);
 
@@ -36,11 +36,11 @@ test.describe("POST /auth/register", () => {
   }) => {
     const user = getUser();
 
-    const preCondition = await register.createUser(user);
+    const preCondition = await auth.createUser(user);
 
     expect(preCondition.status()).toBe(201);
 
-    const response = await register.createUser(user);
+    const response = await auth.createUser(user);
 
     expect(response.status()).toBe(400);
 
@@ -60,7 +60,7 @@ test.describe("POST /auth/register", () => {
       password: "pwd123",
     };
 
-    const response = await register.createUser(user);
+    const response = await auth.createUser(user);
 
     expect(response.status()).toBe(400);
 
@@ -81,7 +81,7 @@ test.describe("POST /auth/register", () => {
       password: "pwd123",
     };
 
-    const response = await register.createUser(user);
+    const response = await auth.createUser(user);
 
     expect(response.status()).toBe(400);
 
@@ -102,7 +102,7 @@ test.describe("POST /auth/register", () => {
       password: "pwd123",
     };
 
-    const response = await register.createUser(user);
+    const response = await auth.createUser(user);
 
     expect(response.status()).toBe(400);
 
@@ -123,7 +123,7 @@ test.describe("POST /auth/register", () => {
       email: `fernando@papito.dev`,
     };
 
-    const response = await register.createUser(user);
+    const response = await auth.createUser(user);
 
     expect(response.status()).toBe(400);
 
