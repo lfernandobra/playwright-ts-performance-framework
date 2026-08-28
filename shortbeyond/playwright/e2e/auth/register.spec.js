@@ -1,15 +1,8 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "../../support/fixtures";
 import { getUser } from "../../support/factories/user";
-import { authService } from "../../support/services/auth";
 
 test.describe("POST /auth/register", () => {
-  let auth;
-
-  test.beforeEach(({ request }) => {
-    auth = authService(request);
-  });
-
-  test("deve cadastrar um novo usuario", async ({ request }) => {
+  test("deve cadastrar um novo usuario", async ({ auth }) => {
     // Preparação
     const user = getUser();
 
@@ -32,7 +25,7 @@ test.describe("POST /auth/register", () => {
   });
 
   test("não deve cadastrar quando o email ja estiver em uso", async ({
-    request,
+    auth,
   }) => {
     const user = getUser();
 
@@ -53,7 +46,7 @@ test.describe("POST /auth/register", () => {
     );
   });
 
-  test("não deve cadastrar quando o email é incorreto", async ({ request }) => {
+  test("não deve cadastrar quando o email é incorreto", async ({ auth }) => {
     const user = {
       name: `Fernando Papito`,
       email: `fernando&papito.dev`,
@@ -73,9 +66,7 @@ test.describe("POST /auth/register", () => {
     );
   });
 
-  test("não deve cadastrar quando o nome não é informado", async ({
-    request,
-  }) => {
+  test("não deve cadastrar quando o nome não é informado", async ({ auth }) => {
     const user = {
       email: `fernando&papito.dev`,
       password: "pwd123",
@@ -95,7 +86,7 @@ test.describe("POST /auth/register", () => {
   });
 
   test("não deve cadastrar quando o email não é informado", async ({
-    request,
+    auth,
   }) => {
     const user = {
       name: `Fernando Papito`,
@@ -116,7 +107,7 @@ test.describe("POST /auth/register", () => {
   });
 
   test("não deve cadastrar quando o password não é informado", async ({
-    request,
+    auth,
   }) => {
     const user = {
       name: `Fernando Papito`,

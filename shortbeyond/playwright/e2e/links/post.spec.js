@@ -1,21 +1,17 @@
-import { test, expect } from "@playwright/test";
-import { authService } from "../../support/services/auth";
-import { linksService } from "../../support/services/links";
+import { test, expect } from "../../support/fixtures";
 import { getUserWithLink } from "../../support/factories/user";
 
 test.describe("POST /api/links", () => {
   const user = getUserWithLink();
-  let auth, link, token;
+  let token;
 
-  test.beforeEach(async ({ request }) => {
-    auth = authService(request);
-    link = linksService(request);
+  test.beforeEach(async ({ auth }) => {
     await auth.createUser(user);
-
     token = await auth.getToken(user);
   });
-  test("deve encurtar um novo link", async ({ request }) => {
-    const response = await link.createLink(user.link, token);
+
+  test("deve encurtar um novo link", async ({ links }) => {
+    const response = await links.createLink(user.link, token);
 
     expect(response.status()).toBe(201);
     const { data, message } = await response.json();
@@ -28,9 +24,9 @@ test.describe("POST /api/links", () => {
   });
 
   test("não deve encurtar quando a url original não é informada", async ({
-    request,
+    links,
   }) => {
-    const response = await link.createLink(
+    const response = await links.createLink(
       { ...user.link, original_url: "" },
       token,
     );
@@ -40,10 +36,8 @@ test.describe("POST /api/links", () => {
     expect(message).toBe(`O campo 'OriginalURL' é obrigatório`);
   });
 
-  test("não deve encurtar quando titulo não é informado", async ({
-    request,
-  }) => {
-    const response = await link.createLink({ ...user.link, title: "" }, token);
+  test("não deve encurtar quando titulo não é informado", async ({ links }) => {
+    const response = await links.createLink({ ...user.link, title: "" }, token);
 
     expect(response.status()).toBe(400);
     const { message } = await response.json();
@@ -51,9 +45,9 @@ test.describe("POST /api/links", () => {
   });
 
   test("não deve encurtar quando a url original não é invalida", async ({
-    request,
+    links,
   }) => {
-    const response = await link.createLink(
+    const response = await links.createLink(
       { ...user.link, original_url: "papito@test.com" },
       token,
     );
