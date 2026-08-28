@@ -4,14 +4,17 @@ import { linksService } from "../../support/services/links";
 import { getUserWithLink } from "../../support/factories/user";
 
 test.describe("POST /api/links", () => {
-  test("deve encurtar um novo link", async ({ request }) => {
-    const auth = authService(request);
-    const link = linksService(request);
+  const user = getUserWithLink();
+  let auth, link, token;
 
-    const user = getUserWithLink();
+  test.beforeEach(async ({ request }) => {
+    auth = authService(request);
+    link = linksService(request);
     await auth.createUser(user);
 
-    const token = await auth.getToken(user);
+    token = await auth.getToken(user);
+  });
+  test("deve encurtar um novo link", async ({ request }) => {
     const response = await link.createLink(user.link, token);
 
     expect(response.status()).toBe(201);
@@ -22,5 +25,41 @@ test.describe("POST /api/links", () => {
     expect(data).toHaveProperty("title", user.link.title);
     expect(data.short_code).toMatch(/^([a-zA-Z0-9_-]){5}$/);
     expect(message).toBe("Link criado com sucesso");
+  });
+
+  test("não deve encurtar quando a url original não é informada", async ({
+    request,
+  }) => {
+    const response = await link.createLink(
+      { ...user.link, original_url: "" },
+      token,
+    );
+
+    expect(response.status()).toBe(400);
+    const { message } = await response.json();
+    expect(message).toBe(`O campo 'OriginalURL' é obrigatório`);
+  });
+
+  test("não deve encurtar quando titulo não é informado", async ({
+    request,
+  }) => {
+    const response = await link.createLink({ ...user.link, title: "" }, token);
+
+    expect(response.status()).toBe(400);
+    const { message } = await response.json();
+    expect(message).toBe(`O campo 'Title' é obrigatório`);
+  });
+
+  test("não deve encurtar quando a url original não é invalida", async ({
+    request,
+  }) => {
+    const response = await link.createLink(
+      { ...user.link, original_url: "papito@test.com" },
+      token,
+    );
+
+    expect(response.status()).toBe(400);
+    const { message } = await response.json();
+    expect(message).toBe(`O campo 'OriginalURL' deve ser uma URL válida`);
   });
 });
