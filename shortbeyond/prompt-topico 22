@@ -1,0 +1,53 @@
+Faça uma única query PostgreSQL, que remove todos os links de usuário com o email que contém o dominio lfernandobra.dev, em seguida, remova todos esses usuários também
+
+Tabela: users
+
+Selecionar dados Mostrar estrutura Alterar estrutura Novo Registro
+
+Coluna Tipo Comentário
+id text
+name character varying(255)
+email character varying(255)
+password character varying(255)
+Índices
+PRIMARY id
+UNIQUE email
+Alterar índices
+
+Chaves estrangeiras
+Criar Chave Estrangeira
+
+Verificações
+Criar verificação
+
+Triggers
+Adicionar Trigger
+
+Tabela: links
+
+Tabela: links
+Selecionar dados Mostrar estrutura Alterar estrutura Novo Registro
+
+Coluna Tipo Comentário
+id text
+user_id text
+original_url character varying(2048)
+short_code character varying(10)
+title character varying(255) NULL
+Índices
+PRIMARY id
+UNIQUE short_code
+Alterar índices
+
+Chaves estrangeiras
+Criar Chave Estrangeira
+
+Verificações
+Criar verificação
+
+Triggers
+Adicionar Trigger
+
+Depois de receber o retorno da IA, escrever o seguinte prompt abaixo:
+
+- Usando a lib pg do Node.js, faça um código que execute essa query na função cleanupTestData
