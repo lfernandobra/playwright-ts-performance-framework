@@ -10,6 +10,7 @@ export const getUser = () => {
       .email({
         firstName: firstName,
         lastName: lastName,
+        provider: "lfernandobra.dev",
       })
       .toLowerCase(),
     password: "pwd123",
@@ -26,6 +27,7 @@ export const getUserWithLink = () => {
       .email({
         firstName: firstName,
         lastName: lastName,
+        provider: "lfernandobra.dev",
       })
       .toLowerCase(),
     password: "pwd123",
@@ -46,6 +48,7 @@ export const getUserWithLinks = (linksCount = 1) => {
       .email({
         firstName: firstName,
         lastName: lastName,
+        provider: "lfernandobra.dev",
       })
       .toLowerCase(),
     password: "pwd123",

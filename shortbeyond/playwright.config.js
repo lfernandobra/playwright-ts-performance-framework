@@ -15,6 +15,7 @@ dotenv.config();
  * @see https://playwright.dev/docs/test-configuration
  */
 export default defineConfig({
+  globalSetup: "./global-setup.js",
   testDir: "./playwright/e2e",
   /* Run tests in files in parallel */
   fullyParallel: true,
