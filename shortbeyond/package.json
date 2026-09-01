@@ -16,7 +16,10 @@
     "@playwright/test": "^1.62.1",
     "@types/node": "^26.3.0",
     "artillery": "^2.0.34",
+    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.3",
     "dotenv": "^17.4.2",
-    "pg": "^8.23.0"
+    "pg": "^8.23.0",
+    "ulid": "^3.0.2"
   }
 }

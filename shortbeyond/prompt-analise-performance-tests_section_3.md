@@ -252,3 +252,10 @@ scenarios:
   json: "$.message"
   value: "Este e-mail já está em uso. Por favor, tente outro."
   "
+
+Topico 26
+
+faça para mim uma função que insere 2 mil usuarios na tabela users.
+
+Os ids são do tipo ULID e a senha deve ser sempre "pwd123" criptografada com bcrypt salt 10, use faker para gerar dados dinamicos. E todos os emails devem ter o
+dominio lfernandobra.dev
