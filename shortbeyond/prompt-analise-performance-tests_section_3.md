@@ -212,3 +212,43 @@ no meu teste de performance com base no seguinte critério de aceitação: ### C
     O teste atendeu a **100% dos critérios de aceitação**. A API demonstrou alta estabilidade e tempo de resposta p95
 
 (~100.5ms) quase 5 vezes inferior ao limite tolerado (500ms).
+
+prompt aula 26 para criação de usuarios
+"Crie uma massa de testes com 100 usuários com os campos 'name', 'email', 'password', no formato CSV"
+"Ajuste esse script para fazer a carga de usuários no meu ambiente de testes:
+config:
+target: "http://localhost:3333/api"
+phases: - name: "cadastros"
+duration: 45
+arrivalRate: 3
+defaults:
+headers:
+Content-Type: "application/json"
+
+scenarios:
+
+- name: "Cadastro com Sucesso"
+  weight: 80
+  flow:
+  - post:
+    url: "/auth/register"
+    json:
+    name: "Usuario {{ $uuid }}"
+    email: "usuario-{{ $uuid }}@lfernandobra.dev"
+    password: "senha123"
+    expect: - statusCode: 201 - hasProperty: "user" - match:
+    json: "$.message"
+    value: "Usuário cadastrado com sucesso!"
+
+- name: "Email Duplicado"
+  weight: 20
+  flow: - post:
+  url: "/auth/register"
+  json:
+  name: "Usuario Duplicado"
+  email: "duplicado@lfernandobra.dev"
+  password: "senha123"
+  expect: - statusCode: 400 - hasProperty: "message" - match:
+  json: "$.message"
+  value: "Este e-mail já está em uso. Por favor, tente outro."
+  "
