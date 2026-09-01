@@ -1,0 +1,3 @@
+Artillery
+
+para criar reports : npx artillery run performance/tests/cadastro.yaml --output performance/reports/cadastro.json 

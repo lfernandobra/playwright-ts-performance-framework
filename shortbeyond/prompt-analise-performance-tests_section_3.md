@@ -138,3 +138,77 @@ P95: 13.9ms (Passed < 50ms: True)
 - **Estabilidade e Conformidade:** Todos os critérios de aceitação foram cumpridos integralmente. A rota `/health` respondeu de forma consistente e muito abaixo do limite de latência tolerado (o p95 foi ~72% mais rápido que o teto de 50ms).
 - **Observação de Pico (_Outlier_):** O valor máximo registrado de **123ms** ocorreu pontualmente (possível _cold start_, handshake inicial ou alocação de recursos da primeira conexão), mas não afetou a distribuição global dos percentis (`p99 = 19.9ms`).
 - **Veredito:** **Aprovado para a carga avaliada.**
+
+## Cadastro
+
+/Users/lfernandobra/Documents/GitHub/udemy-playwright-api/shortbeyond/performance/reports/cadastro.json
+/Users/lfernandobra/Documents/GitHub/udemy-playwright-api/shortbeyond/performance/tests/cadastro.yaml Faça uma analise
+no meu teste de performance com base no seguinte critério de aceitação: ### Critérios de Aceitação:
+
+    [✓] 80% cadastros com sucesso (status 201)
+    [✓] 20% erros de email duplicado (status 400)
+    [✓] Tempo de resposta p95 < 500ms
+    [✓] User retornado com sucesso no JSON
+
+- Retorno analise gemini IA
+
+# 📈 Relatório de Teste de Performance — Cadastro de Usuários
+
+    ## 📋 Critérios de Aceitação
+
+    | Critério | Meta Esperada | Resultado Obtido | Status |
+    | :--- | :---: | :---: | :---: |
+    | **Cadastros com sucesso (status 201)** | ~80% | **78.52%** (106 reqs) | [✓] Aprovado |
+    | **Erros de e-mail duplicado (status 400)** | ~20% | **21.48%** (29 reqs) | [✓] Aprovado |
+    | **Tempo de resposta (p95)** | < 500ms | **100.5 ms** | [✓] Aprovado |
+    | **User retornado no JSON** | Objeto presente | **100% de asserções válidas** | [✓] Aprovado |
+
+    ---
+
+    ## 📊 Métricas Consolidadas da Execução
+
+    ### 1. Volume de Requisições
+    - **Total de Requisições:** 135
+    - **Taxa de Chegada (Arrival Rate):** 3 req/s
+    - **Duração do Teste:** 45 segundos
+    - **Usuários Virtuais Concluídos:** 135 (100%)
+    - **Falhas de Execução (`vusers.failed`):** 0 (0%)
+
+    ---
+
+    ### 2. Distribuição por Código de Status
+    - **Status 201 (Created):** 106 requisições (**78.52%**)
+    - **Status 400 (Bad Request):** 29 requisições (**21.48%**)
+    - **Outros Códigos (5xx / 4xx inesperados):** 0 (0%)
+
+    ---
+
+    ### 3. Tempos de Resposta (Latência)
+
+    | Percentil / Métrica | Tempo Geral | Status 201 (Sucesso) | Status 400 (Duplicado) |
+    | :--- | :---: | :---: | :---: |
+    | **Mínimo** | 1.0 ms | 69.0 ms | 1.0 ms |
+    | **Médio (Mean)** | 66.2 ms | 83.1 ms | 4.3 ms |
+    | **Mediana (p50)** | 74.4 ms | 76.0 ms | 2.0 ms |
+    | **p75** | 90.9 ms | 94.6 ms | 5.0 ms |
+    | **p90** | 98.5 ms | 98.5 ms | 10.1 ms |
+    | **p95 (Meta < 500ms)** | **100.5 ms** | **100.5 ms** | **12.1 ms** |
+    | **p99** | 108.9 ms | 108.9 ms | 13.1 ms |
+    | **Máximo** | 117.0 ms | 117.0 ms | 21.0 ms |
+
+    ---
+
+    ## 🔎 Validação de Asserções e Integridade do Payload
+    - **Cenário "Cadastro com Sucesso":**
+      - Asserção `hasProperty: "user"`: **106/106 aprovadas**
+      - Asserção `$.message == "Usuário cadastrado com sucesso!"`: **106/106 aprovadas**
+    - **Cenário "Email Duplicado":**
+      - Asserção `hasProperty: "message"`: **29/29 aprovadas**
+      - Asserção `$.message == "Este e-mail já está em uso. Por favor, tente outro."`: **29/29 aprovadas**
+
+    ---
+
+    ## 🏁 Conclusão
+    O teste atendeu a **100% dos critérios de aceitação**. A API demonstrou alta estabilidade e tempo de resposta p95
+
+(~100.5ms) quase 5 vezes inferior ao limite tolerado (500ms).
