@@ -1,0 +1,46 @@
+# Kubernetes Pod Definition - Infrastructure Stack (PostgreSQL & Mock Services)
+apiVersion: v1
+kind: Pod
+metadata:
+  name: shortbeyond
+  labels:
+    app: shortbeyond
+spec:
+  containers:
+    - name: shortb-db
+      image: postgres:15
+      ports:
+        - containerPort: 5432
+          hostPort: 5432
+      env:
+        - name: POSTGRES_USER
+          value: "dba"
+        - name: POSTGRES_PASSWORD
+          value: "dba"
+        - name: POSTGRES_DB
+          value: "ShortDB"
+        - name: TZ
+          value: "America/Sao_Paulo"
+    - name: shortb-adminer
+      image: adminer
+      ports:
+        - containerPort: 8080
+          hostPort: 8080
+    - name: shortb-api
+      image: beyondtest/shortb-api:hotfix
+      ports:
+        - containerPort: 3333
+          hostPort: 3333
+      env:
+        - name: DB_USER
+          value: "dba"
+        - name: DB_PASS
+          value: "dba"
+        - name: DB_HOST
+          value: "localhost"
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_NAME
+          value: "ShortDB"
+        - name: PORT
+          value: "3333"

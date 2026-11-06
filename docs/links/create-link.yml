@@ -1,0 +1,26 @@
+info:
+  name: Create Link
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: http://localhost:3333/api/links
+  headers:
+    - name: Authorization
+      value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMDFNMFdWUVZES01LTVBZWjA0Ujc3WlhYMjIiLCJleHAiOjE3ODc5OTgyNTcsImlhdCI6MTc4NzkxMTg1N30.jOa69GVcSJgTdwv-akumTLPdk1313gDxJLf03J7QAPc
+  body:
+    type: json
+    data: |-
+      {
+        "original_url": "https://github.com/lfernandobra/playwright-ts-performance-framework",
+        "title": "Framework Portfolio"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
